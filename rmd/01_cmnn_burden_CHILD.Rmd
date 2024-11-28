@@ -1,6 +1,6 @@
 # Communicable, Maternal, Neonatal, and Nutritional Disease Burden (CMNN)
 
-```{r}
+```{r, include=FALSE}
 # Load necessary packages
 pacman::p_load(tidyverse, knitr, here)
 
@@ -8,7 +8,7 @@ pacman::p_load(tidyverse, knitr, here)
 data_cmnn <- read_csv(here("data/burden-of-disease-cmnn.csv"))
 ```
 
-```{r}
+```{r, include=FALSE}
 # Filter the dataset to include only the three countries chosen by your group.
 data_cmnn_mini <- data_cmnn %>% 
   filter (Entity == "Afghanistan" | Entity == "Africa" | Entity == "African Region") %>% 
@@ -19,7 +19,7 @@ data_cmnn_mini
 
 ## Table of Estimates for CMNN Burden Over Time
 
-```{r}
+```{r, include=FALSE}
 # Here render a table for the DALY burden over time for the three countries.
 # You should pivot the data wider to show each country in a separate column.
 data_cmnn_wide <- data_cmnn_mini %>% 
@@ -32,6 +32,11 @@ data_cmnn_wide_kable <- data_cmnn_wide %>%
 
 data_cmnn_wide_kable
 # Use kable() from the knitr package to render the table.
+```
+
+
+```{r}
+data_cmnn_wide_kable
 ```
 
 ## Plot Showing Trends in CMNN Burden Over Time
