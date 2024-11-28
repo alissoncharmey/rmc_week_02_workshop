@@ -10,7 +10,11 @@ data_cmnn <- read_csv(here("data/burden-of-disease-cmnn.csv"))
 
 ```{r}
 # Filter the dataset to include only the three countries chosen by your group.
-data_cmnn_mini <- "WRITE_YOUR_CODE_HERE"
+data_cmnn_mini <- data_cmnn %>% 
+  filter (Entity == "Afghanistan" | Entity == "Africa" | Entity == "African Region") %>% 
+  select(-Code)
+
+data_cmnn_mini
 ```
 
 ## Table of Estimates for CMNN Burden Over Time
@@ -18,7 +22,15 @@ data_cmnn_mini <- "WRITE_YOUR_CODE_HERE"
 ```{r}
 # Here render a table for the DALY burden over time for the three countries.
 # You should pivot the data wider to show each country in a separate column.
-data_cmnn_wide <- "WRITE_YOUR_CODE_HERE"
+data_cmnn_wide <- data_cmnn_mini %>% 
+  pivot_wider(values_from=`DALYs (Disability-Adjusted Life Years) - Communicable, maternal, neonatal, and nutritional diseases - Sex: Both - Age: Age-standardized (Rate)`, names_from = Entity)
+
+data_cmnn_wide 
+
+data_cmnn_wide_kable <- data_cmnn_wide %>% 
+  kable()
+
+data_cmnn_wide_kable
 # Use kable() from the knitr package to render the table.
 ```
 
@@ -26,9 +38,19 @@ data_cmnn_wide <- "WRITE_YOUR_CODE_HERE"
 
 ```{r}
 # Here, plot a line graph showing the trend of DALY burden for the chosen countries over time. You can use ggplot2 to create this plot. Each country's line should be a different color.
-# NOTE: Use your long 'mini' data frame for plotting, not the wide data used for the table. 
+
+data_cmnn_mini %>% 
+  ggplot (mapping=aes(x=Year, 
+                      y=`DALYs (Disability-Adjusted Life Years) - Communicable, maternal, neonatal, and nutritional diseases - Sex: Both - Age: Age-standardized (Rate)`)) +
+  geom_line(mapping=aes(color=Entity)) +
+  labs(title="DALY evolution according to regions", 
+       y="DALY")
+
+
 ```
 
 ## Summary of CMNN Burden Findings
 
 Provide a brief analysis based on the data presented in the table and chart. Highlight any significant findings or patterns. About 3 sentences.
+
+As we can see, in these 3 regions, we see an increase of the DALY values between 1990-2000. From 2000, we observe an improvement of the disease care that reduce the burden of them, with continuous reduction of the DALY. We can also observe that both Africa and Africa regions have high DALY compare to Afghanistan. Indeed, we now that disease burden in Africa is higher than developped countries because of the lack of follow-up, the lack of help and treatment availibility. 
